@@ -64,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Login emocional</title>
+<title>Login lumina</title>
 <style>
     /* ... Tus estilos se mantienen igual ... */
     *{ box-sizing:border-box; font-family:'Segoe UI',sans-serif; }
@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <?php endif; ?>
 
     <form method="POST" onsubmit="mostrarFeedback()">
-        <label>Email o Username</label>
+        <label>Email o Usuario</label>
         <input type="text" name="identificador"
                value="<?= htmlspecialchars($identificador) ?>" required>
 

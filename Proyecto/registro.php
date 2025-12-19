@@ -23,7 +23,6 @@ $nombre   = "";
 $apellido = "";
 $username = "";
 $email    = "";
-$edad     = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // Recogida de datos
@@ -31,7 +30,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $apellido = trim($_POST["apellido"]);
     $username = trim($_POST["username"]);
     $email    = filter_var(trim($_POST["email"]), FILTER_SANITIZE_EMAIL);
-    $edad     = $_POST["edad"];
     $password = $_POST["password"];
 
     // 1. VALIDACIONES DE PHP
@@ -73,11 +71,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     // 3. INSERTAR SI NO HAY ERRORES
     if (empty($errores)) {
         $passwordHash = password_hash($password, PASSWORD_DEFAULT);
-        $edadInt = intval($edad);
 
-        $stmt = $conexion->prepare("INSERT INTO usuarios (nombre, apellido, username, email, edad, password) VALUES (?, ?, ?, ?, ?, ?)");
-        // ssssis -> string, string, string, string, integer, string
-        $stmt->bind_param("ssssis", $nombre, $apellido, $username, $email, $edadInt, $passwordHash);
+        $stmt = $conexion->prepare("INSERT INTO usuarios (nombre, apellido, username, email, password) VALUES (?, ?, ?, ?, ?)");
+        // sssss -> string, string, string, integer, string
+        $stmt->bind_param("sssss", $nombre, $apellido, $username, $email, $passwordHash);
 
         if ($stmt->execute()) {
             $exito = true;
@@ -129,20 +126,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     <input type="text" name="nombre" value="<?= htmlspecialchars($nombre) ?>" required>
                 </div>
                 <div style="flex:1">
-                    <label>Apellido</label>
+                    <label>Apellidos</label>
                     <input type="text" name="apellido" value="<?= htmlspecialchars($apellido) ?>" required>
                 </div>
             </div>
 
-            <label>Username</label>
+            <label>Usuario</label>
             <input type="text" name="username" value="<?= htmlspecialchars($username) ?>" placeholder="mín. 5 caracteres" required>
 
             <label>Email</label>
             <input type="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
-
-            <label>Edad</label>
-            <input type="number" name="edad" value="<?= htmlspecialchars($edad) ?>" required>
-
+            
             <label>Contraseña</label>
             <input type="password" name="password" placeholder="8 a 16 caracteres" required>
             

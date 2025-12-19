@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <body>
     <div class="container">
         <h2>Recuperar acceso</h2>
-        <p>Introduce tu email para buscar tu cuenta.</p>
+        <p>Introduce tu email para recuperar contraseña.</p>
 
         <?php if ($mensaje): ?>
             <div class="msg"><?= $mensaje ?></div>
@@ -79,7 +79,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <button type="submit">Enviar enlace</button>
         </form>
         <br>
-        <a href="login.php" style="color:#6d597a; text-decoration:none">Volver al login</a>
+        <a href="index.php" style="color:#6d597a; text-decoration:none">Volver al inicio</a>
     </div>
 </body>
 </html>
