@@ -26,8 +26,7 @@ CREATE TABLE usuarios (
     apellido VARCHAR(50) NOT NULL,
     email VARCHAR(100) NOT NULL UNIQUE,
     fecha_creacion TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    password VARCHAR(255) NOT NULL,
-    )
+    password VARCHAR(255) NOT NULL
 );
 
 ALTER TABLE usuarios 
