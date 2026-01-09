@@ -85,9 +85,14 @@ button:hover { background: #7b2cbf; transform: translateY(-2px); }
 .menu-item:hover { background: #e0c3fc; color: #5a189a; }
 .salir { color: #d63031; }
 .salir:hover { background: #ffeaa7; color: #d63031; }
+.logo-container {
+    display: flex;
+    justify_content: center; /* Centra el logo horizontalmente */
+    padding: 20px;
+}
 .logo-circular {
-    width: 200px;  /* Define el tamaño que desees */
-    height: 200px; /* Debe ser igual al ancho para ser un círculo perfecto */
+    width: 90%;  /* Define el tamaño que desees */
+    height: 90%; /* Debe ser igual al ancho para ser un círculo perfecto */
     
     border-radius: 50%; /* Esto hace el recorte circular */
     
