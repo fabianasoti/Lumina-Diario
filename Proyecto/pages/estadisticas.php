@@ -15,7 +15,7 @@ $res = $stmt->get_result();
 $labels = [];
 $data = [];
 while ($row = $res->fetch_assoc()) {
-    $labels[] = ucfirst($row['emocion']); // Primera letra mayúscula
+    $labels[] = ucfirst($row['emocion']);
     $data[] = $row['cantidad'];
 }
 ?>
@@ -24,6 +24,7 @@ while ($row = $res->fetch_assoc()) {
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Estadísticas - Lumina</title>
     <link rel="stylesheet" href="../assets/css/estilos.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -49,14 +50,8 @@ while ($row = $res->fetch_assoc()) {
 <script>
     const ctx = document.getElementById('miGrafica');
     
-    // PALETA PASTEL LUMINA (Coherente con el diseño)
     const coloresPastel = [
-        '#e0aaff', // Lila suave (Color principal)
-        '#ffadad', // Rojo pastel suave
-        '#a0c4ff', // Azul cielo
-        '#caffbf', // Verde menta
-        '#fdffb6', // Amarillo suave
-        '#ffc6ff'  // Rosa
+        '#e0aaff', '#ffadad', '#a0c4ff', '#caffbf', '#fdffb6', '#ffc6ff'
     ];
 
     if (ctx) {
@@ -68,7 +63,7 @@ while ($row = $res->fetch_assoc()) {
                     label: 'Registros',
                     data: <?= json_encode($data) ?>,
                     backgroundColor: coloresPastel,
-                    borderRadius: 8, // Bordes redondeados en las barras
+                    borderRadius: 8,
                     borderWidth: 0
                 }]
             },
@@ -79,7 +74,7 @@ while ($row = $res->fetch_assoc()) {
                     y: { 
                         beginAtZero: true, 
                         ticks: { stepSize: 1, color: '#888' },
-                        grid: { color: '#f0f0f0' } // Líneas de guía muy suaves
+                        grid: { color: '#f0f0f0' } 
                     },
                     x: {
                         ticks: { color: '#666' },
@@ -87,7 +82,7 @@ while ($row = $res->fetch_assoc()) {
                     }
                 },
                 plugins: {
-                    legend: { display: false } // Ocultamos la leyenda porque ya se entiende
+                    legend: { display: false } 
                 }
             }
         });

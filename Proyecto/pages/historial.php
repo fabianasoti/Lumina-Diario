@@ -1,5 +1,4 @@
 <?php
-// CORRECCIÓN 1: Ruta a la conexión
 require_once '../config/conexion.php';
 session_start();
 
@@ -19,6 +18,7 @@ while ($fila = $resultado->fetch_assoc()) { $historial[] = $fila; }
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Historial - Lumina</title>
     <link rel="stylesheet" href="../assets/css/estilos.css">
     <style>
@@ -42,10 +42,9 @@ while ($fila = $resultado->fetch_assoc()) { $historial[] = $fila; }
             <div class="entry-item">
                 <div class="fecha"><?= date("d/m/Y \a \l\a\s H:i", strtotime($h['fecha'])) ?></div>
                 <div class="contenido">
-                    <div>
+                    <div style="display:flex; align-items:center;">
                         <span class="emoji">
                             <?php
-                                // Traductor de Texto a Emoji
                                 $e = strtolower($h['emocion']);
                                 if ($e == 'feliz') echo '😄'; 
                                 elseif ($e == 'triste') echo '😔'; 
@@ -55,7 +54,7 @@ while ($fila = $resultado->fetch_assoc()) { $historial[] = $fila; }
                                 else echo '😐';
                             ?>
                         </span>
-                        <strong><?= ucfirst($h['emocion']) ?>:</strong> <?= htmlspecialchars($h['nota']) ?>
+                        <span><strong><?= ucfirst($h['emocion']) ?>:</strong> <?= htmlspecialchars($h['nota']) ?></span>
                     </div>
                     <div>
                         <a href="editar_vista.php?id=<?= $h['id'] ?>" style="text-decoration:none; margin-right:10px;">✏️</a>

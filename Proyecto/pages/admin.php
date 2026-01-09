@@ -64,6 +64,7 @@ $res_users = $conexion->query($sql_users);
 <head>
     <meta charset="UTF-8">
     <title>Panel Admin - Lumina</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../assets/css/estilos.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
     <style>
@@ -72,6 +73,7 @@ $res_users = $conexion->query($sql_users);
         .stats-num { font-size: 32px; font-weight: bold; margin-top: 5px; }
         .stats-label { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
         
+        /* Estilos base de tabla (el responsive lo maneja el CSS externo ahora) */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
         th { background: #f8f9fa; padding: 12px; text-align: left; color: #6c5ce7; font-weight: bold; border-bottom: 2px solid #e0c3fc; }
         td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
@@ -128,58 +130,60 @@ $res_users = $conexion->query($sql_users);
     </div>
 
     <h3 style="color: #5a189a; margin-bottom: 15px;">Usuarios Registrados</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>Usuario</th>
-                <th>Estado</th>
-                <th>Rol</th>
-                <th style="text-align: center;">Registros</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php while($u = $res_users->fetch_assoc()): ?>
-                <?php $is_online = ($u['ultima_conexion'] && (time() - strtotime($u['ultima_conexion']) < 300)); ?>
+    
+    <div class="table-responsive">
+        <table>
+            <thead>
                 <tr>
-                    <td>
-                        <strong style="color: #333;"><?= htmlspecialchars($u['nombre']) ?></strong><br>
-                        <span style="color:#888; font-size:12px;"><?= htmlspecialchars($u['email']) ?></span>
-                    </td>
-                    <td>
-                        <?= $is_online ? '<span class="status-dot online"></span>' : '<span class="status-dot offline"></span>' ?>
-                    </td>
-                    <td>
-                        <span class="badge <?= ($u['rol']=='admin')?'badge-admin':'badge-user' ?>">
-                            <?= $u['rol'] ?>
-                        </span>
-                    </td>
-                    <td style="font-weight: bold; text-align: center; color: #5a189a;">
-                        <?= $u['num_entradas'] ?>
-                    </td>
-                    <td>
-                        <a href="admin_usuario.php?id=<?= $u['id'] ?>" class="btn-action btn-ver">Ver Perfil</a>
-                        
-                        <?php if($u['id'] != $uid): ?>
-                            <?php if($u['rol'] == 'user'): ?>
-                                <a href="../backend/cambiar_rol.php?id=<?= $u['id'] ?>&rol=admin" class="btn-action btn-ascender" onclick="return confirm('¿Dar permisos de Administrador?')">⬆️</a>
-                            <?php else: ?>
-                                <a href="../backend/cambiar_rol.php?id=<?= $u['id'] ?>&rol=user" class="btn-action btn-ascender" onclick="return confirm('¿Quitar permisos de Administrador?')">⬇️</a>
-                            <?php endif; ?>
-                        <?php endif; ?>
-                    </td>
+                    <th>Usuario</th>
+                    <th>Estado</th>
+                    <th>Rol</th>
+                    <th style="text-align: center;">Registros</th>
+                    <th>Acciones</th>
                 </tr>
-            <?php endwhile; ?>
-        </tbody>
-    </table>
-</div>
+            </thead>
+            <tbody>
+                <?php while($u = $res_users->fetch_assoc()): ?>
+                    <?php $is_online = ($u['ultima_conexion'] && (time() - strtotime($u['ultima_conexion']) < 300)); ?>
+                    <tr>
+                        <td>
+                            <strong style="color: #333;"><?= htmlspecialchars($u['nombre']) ?></strong><br>
+                            <span style="color:#888; font-size:12px;"><?= htmlspecialchars($u['email']) ?></span>
+                        </td>
+                        <td>
+                            <?= $is_online ? '<span class="status-dot online"></span>' : '<span class="status-dot offline"></span>' ?>
+                        </td>
+                        <td>
+                            <span class="badge <?= ($u['rol']=='admin')?'badge-admin':'badge-user' ?>">
+                                <?= $u['rol'] ?>
+                            </span>
+                        </td>
+                        <td style="font-weight: bold; text-align: center; color: #5a189a;">
+                            <?= $u['num_entradas'] ?>
+                        </td>
+                        <td>
+                            <a href="admin_usuario.php?id=<?= $u['id'] ?>" class="btn-action btn-ver">Ver Perfil</a>
+                            
+                            <?php if($u['id'] != $uid): ?>
+                                <?php if($u['rol'] == 'user'): ?>
+                                    <a href="../backend/cambiar_rol.php?id=<?= $u['id'] ?>&rol=admin" class="btn-action btn-ascender" onclick="return confirm('¿Dar permisos de Administrador?')">⬆️</a>
+                                <?php else: ?>
+                                    <a href="../backend/cambiar_rol.php?id=<?= $u['id'] ?>&rol=user" class="btn-action btn-ascender" onclick="return confirm('¿Quitar permisos de Administrador?')">⬇️</a>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </td>
+                    </tr>
+                <?php endwhile; ?>
+            </tbody>
+        </table>
+    </div> </div>
 
 <script>
     const ctx = document.getElementById('emocionesChart').getContext('2d');
     const etiquetas = <?= json_encode($labels) ?>;
     const valores = <?= json_encode($data) ?>;
     
-    // PALETA PASTEL (Igual que en estadísticas para consistencia)
+    // PALETA PASTEL (Consistente con tu diseño)
     const coloresLumina = [
         '#e0aaff', // Lila
         '#ffadad', // Rojo suave

@@ -1,5 +1,4 @@
 <?php
-// --- CORRECCIÓN DE RUTA ---
 require_once '../config/conexion.php';
 session_start();
 
@@ -36,6 +35,7 @@ while ($r = $res->fetch_assoc()) { $historial[] = $r; }
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <title>Dashboard - Lumina</title>
     <link rel="stylesheet" href="../assets/css/estilos.css">
     <style>
