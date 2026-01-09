@@ -1,17 +1,17 @@
 /* RESET BÁSICO */
 * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
 
-/* FONDO DEGRADADO (Para que resalte la caja blanca) */
+/* FONDO DEGRADADO */
 body {
     background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center; /* Centra todo verticalmente */
+    align-items: center;
     padding: 20px;
 }
 
-/* CAJA BLANCA DEL LOGIN (El recuadro que te faltaba) */
+/* CAJA BLANCA DEL LOGIN */
 .login-container {
     background: white;
     padding: 2.5rem;
@@ -29,11 +29,11 @@ body {
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     width: 100%;
-    max-width: 500px; /* Dashboard normal */
+    max-width: 500px;
     margin: 0 auto;
 }
 
-.wide { max-width: 900px; } /* Dashboard ancho para admin */
+.wide { max-width: 900px; }
 
 /* ELEMENTOS DEL FORMULARIO */
 input, select, textarea {
@@ -85,17 +85,20 @@ button:hover { background: #7b2cbf; transform: translateY(-2px); }
 .menu-item:hover { background: #e0c3fc; color: #5a189a; }
 .salir { color: #d63031; }
 .salir:hover { background: #ffeaa7; color: #d63031; }
-.logo-container {
-    display: flex;
-    justify_content: center; /* Centra el logo horizontalmente */
-    padding: 20px;
-}
-.logo-circular {
-    width: 200px;  /* Define el tamaño que desees */
-    height: 200px; /* Debe ser igual al ancho para ser un círculo perfecto */
-    
-    border-radius: 50%; /* Esto hace el recorte circular */
-    
-    object-fit: cover; /* Evita que la imagen se deforme si no es cuadrada */
-}
 
+/* --- ESTILOS DEL LOGO NUEVO (Versión Grande) --- */
+.logo-circular {
+    width: 250px;  /* Aumentado de 180px a 250px */
+    height: 250px;
+    
+    border-radius: 50%;
+    object-fit: cover;
+    
+    /* CENTRADO */
+    display: block;
+    margin: 0 auto 15px auto; /* Reduje un poco el margen inferior */
+    
+    /* ESTÉTICA */
+    border: 3px solid #e0c3fc; /* Borde un pelín más fino para que se vea más imagen */
+    box-shadow: 0 5px 15px rgba(157, 78, 221, 0.3);
+}
