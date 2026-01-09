@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 // Si ya hay sesión, mandarlo adentro
 if (isset($_SESSION['usuario_id'])) {
     header("Location: dashboard.php");
@@ -16,16 +17,15 @@ if (isset($_SESSION['usuario_id'])) {
 </head>
 <body>
     <div class="login-container fade-in">
-        <div class="logo-area">
-            <h1>Lumina 🧠</h1>
-            <p>Tu diario emocional inteligente</p>
+        <div class="logo-container">
+            <img src="../assets/img/nombre_logo.png" alt="Logo Lumina" class="logo-circular">
         </div>
 
-        <?php if(isset($_GET['error']) && $_GET['error'] == 'credenciales'): ?>
+        <?php if (isset($_GET['error']) && $_GET['error'] == 'credenciales'): ?>
             <p style="color:red; margin-bottom:10px;">Correo o contraseña incorrectos</p>
         <?php endif; ?>
         
-        <?php if(isset($_GET['registro']) && $_GET['registro']=='exito'): ?>
+        <?php if (isset($_GET['registro']) && $_GET['registro'] == 'exito'): ?>
             <p style="color:green; margin-bottom:10px;">¡Cuenta creada! Ingresa ahora.</p>
         <?php endif; ?>
 
