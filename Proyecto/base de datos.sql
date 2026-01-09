@@ -46,5 +46,14 @@ ALTER TABLE usuarios
 ADD CONSTRAINT chk_username_formato 
 CHECK (username REGEXP '^[a-zA-Z0-9._]{5,20}$');
 
+/* 1. Añadimos el rol (por defecto todos son usuarios normales) */
+ALTER TABLE usuarios ADD COLUMN rol VARCHAR(10) DEFAULT 'user';
+
+/* 2. Añadimos el campo para rastrear la actividad */
+ALTER TABLE usuarios ADD COLUMN ultima_conexion DATETIME DEFAULT NULL;
+
+/* 3. ¡IMPORTANTE! Conviértete TÚ en el administrador */
+/* Cambia 'tu_email@ejemplo.com' por TU email real con el que te registraste */
+UPDATE usuarios SET rol = 'admin' WHERE email = 'tu_email@ejemplo.com';
 
 

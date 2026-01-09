@@ -1,0 +1,87 @@
+/* RESET BÁSICO */
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+
+/* FONDO DEGRADADO (Para que resalte la caja blanca) */
+body {
+    background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centra todo verticalmente */
+    padding: 20px;
+}
+
+/* CAJA BLANCA DEL LOGIN (El recuadro que te faltaba) */
+.login-container {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+/* CAJA BLANCA GENERAL (Dashboard, Admin, etc) */
+.card {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    width: 100%;
+    max-width: 500px; /* Dashboard normal */
+    margin: 0 auto;
+}
+
+.wide { max-width: 900px; } /* Dashboard ancho para admin */
+
+/* ELEMENTOS DEL FORMULARIO */
+input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: 0.3s;
+}
+input:focus { border-color: #9d4edd; }
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #9d4edd;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+button:hover { background: #7b2cbf; transform: translateY(-2px); }
+
+/* UTILIDADES */
+.fade-in { animation: fadeIn 0.8s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.logo-area h1 { color: #5a189a; margin-bottom: 5px; }
+.logo-area p { color: #888; margin-bottom: 25px; }
+.pie { margin-top: 20px; font-size: 0.9rem; color: #666; }
+.pie a { color: #9d4edd; text-decoration: none; font-weight: bold; }
+
+/* MENÚ DE NAVEGACIÓN */
+.app-menu {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 10px;
+    flex-wrap: wrap;
+}
+.menu-item { text-decoration: none; color: #555; font-weight: 500; font-size: 14px; padding: 5px 10px; border-radius: 5px; transition: 0.2s; }
+.menu-item:hover { background: #e0c3fc; color: #5a189a; }
+.salir { color: #d63031; }
+.salir:hover { background: #ffeaa7; color: #d63031; }
