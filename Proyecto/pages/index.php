@@ -18,7 +18,7 @@ if (isset($_SESSION['usuario_id'])) {
 <body>
     <div class="login-container fade-in">
         <div class="logo-container">
-            <img src="../assets/img/nombre_logo.png" alt="Logo Lumina" class="logo-circular">
+            <img src="../assets/img/luminalogo.png" alt="Logo Lumina" class="logo-circular">
         </div>
 
         <?php if (isset($_GET['error']) && $_GET['error'] == 'credenciales'): ?>
