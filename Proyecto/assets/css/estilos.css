@@ -149,3 +149,10 @@ td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
     th, td { padding: 8px; font-size: 12px; }
     .badge { font-size: 10px; padding: 3px 6px; }
 }
+.registro-footer {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+    padding-top: 15px;
+    border-top: 1px solid #eee; /* Opcional: una línea sutil de separación */
+    margin-top: 20px;
+}

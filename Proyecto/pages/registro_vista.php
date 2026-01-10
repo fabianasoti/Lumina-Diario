@@ -1,5 +1,5 @@
 <?php
-require_once 'conexion.php'; // 1. Cargamos la conexión centralizada
+require_once '../config/conexion.php'; // 1. Cargamos la conexión centralizada
 
 $errores = [];
 $exito = false;
@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 <head>
     <meta charset="UTF-8">
     <title>Registro - Diario Emocional</title>
-    <link rel="stylesheet" href="estilos.css">
+    <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
 <body>
 
@@ -87,7 +87,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             <button type="submit">Registrarme</button>
         </form>
     <?php endif; ?>
-    <a href="index.php" class="link">¿Ya tienes cuenta? Inicia sesión</a>
+    <div class="registro-footer">
+      <a href="index.php" class="link">¿Ya tienes cuenta? Inicia sesión</a>
+    </div>
 </div>
 </body>
 </html>
