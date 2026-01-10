@@ -16,7 +16,7 @@ if (isset($_SESSION['usuario_id'])) {
 <body>
     <div class="login-container fade-in">
         <div class="logo-area">
-            <img src="../assets/img/luminalogo.xcf" alt="Logo Lumina" class="logo-circular">
+            <img src="../assets/img/luminalogo.png" alt="Logo Lumina" class="logo-circular">
             
             <h1>Lumina</h1>
             <p>Support with Purpose</p>
