@@ -35,10 +35,6 @@ CREATE TABLE usuarios (
     CONSTRAINT chk_nombre_formato CHECK (nombre REGEXP '^[a-zA-Z0-9._]{5,20}$')
 );
 
-/* 3. ¡IMPORTANTE! Conviértete TÚ en el administrador */
-/* Cambia 'tu_email@ejemplo.com' por TU email real con el que te registraste */
-UPDATE usuarios SET rol = 'admin' WHERE email = 'tu-email@ejemplo.com';
-
 CREATE TABLE entradas (
     id INT AUTO_INCREMENT PRIMARY KEY,
     usuario_id INT NOT NULL,
@@ -49,5 +45,8 @@ CREATE TABLE entradas (
     FOREIGN KEY (usuario_id) REFERENCES usuarios(id) ON DELETE CASCADE
 );
 
+/* 3. ¡IMPORTANTE! Conviértete TÚ en el administrador */
+/* Cambia 'tu_email@ejemplo.com' por TU email real con el que te registraste */
+UPDATE usuarios SET rol = 'admin' WHERE email = 'tu-email@ejemplo.com';
 
 
