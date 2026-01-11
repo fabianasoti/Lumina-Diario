@@ -2,8 +2,8 @@
 date_default_timezone_set('Europe/Madrid');
 
 $host = "localhost";
-$user = "Gustavo";
-$pass = "Hakaishin2."; 
+$user = "diarioemocional";
+$pass = "Diarioemocional123$"; 
 $db   = "diarioemocional";
 
 mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
