@@ -37,7 +37,7 @@ CREATE TABLE usuarios (
 
 /* 3. ¡IMPORTANTE! Conviértete TÚ en el administrador */
 /* Cambia 'tu_email@ejemplo.com' por TU email real con el que te registraste */
-UPDATE usuarios SET rol = 'admin' WHERE email = 'fabiana@ejemplo.com';
+UPDATE usuarios SET rol = 'admin' WHERE email = 'tu-email@ejemplo.com';
 
 CREATE TABLE entradas (
     id INT AUTO_INCREMENT PRIMARY KEY,
