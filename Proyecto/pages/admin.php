@@ -1,61 +1,38 @@
 <?php
-// --- SOLUCIÓN ERROR 500: Ruta Correcta ---
+// --- SEGURIDAD ANTI-CACHÉ ---
+header("Cache-Control: no-cache, no-store, must-revalidate");
+header("Pragma: no-cache");
+header("Expires: 0");
+
 require_once '../config/conexion.php'; 
 session_start();
 
-// 1. SEGURIDAD: Verificar si hay sesión
-if (!isset($_SESSION['usuario_id'])) { 
-    header("Location: index.php"); 
-    exit(); 
-}
-
+if (!isset($_SESSION['usuario_id'])) { header("Location: index.php"); exit(); }
 $uid = $_SESSION['usuario_id'];
 
-// 2. SEGURIDAD: Verificar si es Admin en la BD
 $check = $conexion->query("SELECT rol FROM usuarios WHERE id = $uid");
-
-if (!$check || $check->num_rows === 0) {
-    // Si el usuario no existe en la BD (caso raro)
-    session_destroy();
-    header("Location: index.php");
-    exit();
-}
-
+if (!$check || $check->num_rows === 0) { session_destroy(); header("Location: index.php"); exit(); }
 $datos_usuario = $check->fetch_assoc();
-if ($datos_usuario['rol'] !== 'admin') { 
-    die("<div style='text-align:center; padding:50px; font-family:sans-serif;'>⛔ Acceso Denegado: No tienes permisos de administrador.</div>"); 
-}
+if ($datos_usuario['rol'] !== 'admin') { die("⛔ Acceso Denegado."); }
 
-// 3. ESTADÍSTICAS GLOBALES
 $total_entradas_global = $conexion->query("SELECT COUNT(*) as total FROM entradas")->fetch_assoc()['total'];
 $total_users = $conexion->query("SELECT COUNT(*) as total FROM usuarios")->fetch_assoc()['total'];
 
-// 4. DATOS PARA LA GRÁFICA (Tendencia del mes)
 $sql_stats = "SELECT emocion, COUNT(*) as cantidad FROM entradas 
               WHERE MONTH(fecha) = MONTH(CURRENT_DATE()) AND YEAR(fecha) = YEAR(CURRENT_DATE()) 
               GROUP BY emocion ORDER BY cantidad DESC";
 $res_stats = $conexion->query($sql_stats);
 
-$labels = []; 
-$data = []; 
-$emocion_predominante = "Sin datos"; 
-$max_cantidad = 0;
-
+$labels = []; $data = []; $emocion_predominante = "Sin datos"; $max_cantidad = 0;
 while($row = $res_stats->fetch_assoc()) {
     $labels[] = ucfirst($row['emocion']);
     $data[] = $row['cantidad'];
-    if ($row['cantidad'] > $max_cantidad) { 
-        $max_cantidad = $row['cantidad']; 
-        $emocion_predominante = $row['emocion']; 
-    }
+    if ($row['cantidad'] > $max_cantidad) { $max_cantidad = $row['cantidad']; $emocion_predominante = $row['emocion']; }
 }
 
-// 5. LISTA DE USUARIOS
 $sql_users = "SELECT u.id, u.nombre, u.email, u.rol, u.fecha_creacion, u.ultima_conexion, COUNT(e.id) as num_entradas 
-              FROM usuarios u 
-              LEFT JOIN entradas e ON u.id = e.usuario_id 
-              GROUP BY u.id 
-              ORDER BY u.id DESC";
+              FROM usuarios u LEFT JOIN entradas e ON u.id = e.usuario_id 
+              GROUP BY u.id ORDER BY u.id DESC";
 $res_users = $conexion->query($sql_users);
 ?>
 
@@ -63,8 +40,8 @@ $res_users = $conexion->query($sql_users);
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Panel Admin - Lumina</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Admin - Lumina</title>
     <link rel="stylesheet" href="../assets/css/estilos.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
     <style>
@@ -73,7 +50,6 @@ $res_users = $conexion->query($sql_users);
         .stats-num { font-size: 32px; font-weight: bold; margin-top: 5px; }
         .stats-label { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; opacity: 0.9; }
         
-        /* Estilos base de tabla (el responsive lo maneja el CSS externo ahora) */
         table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
         th { background: #f8f9fa; padding: 12px; text-align: left; color: #6c5ce7; font-weight: bold; border-bottom: 2px solid #e0c3fc; }
         td { padding: 12px; border-bottom: 1px solid #eee; vertical-align: middle; }
@@ -176,41 +152,20 @@ $res_users = $conexion->query($sql_users);
                 <?php endwhile; ?>
             </tbody>
         </table>
-    </div> </div>
+    </div>
+</div>
 
 <script>
     const ctx = document.getElementById('emocionesChart').getContext('2d');
     const etiquetas = <?= json_encode($labels) ?>;
     const valores = <?= json_encode($data) ?>;
-    
-    // PALETA PASTEL (Consistente con tu diseño)
-    const coloresLumina = [
-        '#e0aaff', // Lila
-        '#ffadad', // Rojo suave
-        '#a0c4ff', // Azul
-        '#caffbf', // Verde
-        '#fdffb6', // Amarillo
-        '#ffc6ff'  // Rosa
-    ];
+    const coloresLumina = ['#e0aaff', '#ffadad', '#a0c4ff', '#caffbf', '#fdffb6', '#ffc6ff'];
 
     if (etiquetas.length > 0) {
         new Chart(ctx, {
             type: 'doughnut',
-            data: { 
-                labels: etiquetas, 
-                datasets: [{ 
-                    data: valores, 
-                    backgroundColor: coloresLumina, 
-                    borderWidth: 0,
-                    hoverOffset: 10
-                }] 
-            },
-            options: { 
-                responsive: true, 
-                maintainAspectRatio: false, 
-                plugins: { legend: { position: 'bottom' } }, 
-                cutout: '70%' 
-            }
+            data: { labels: etiquetas, datasets: [{ data: valores, backgroundColor: coloresLumina, borderWidth: 0, hoverOffset: 10 }] },
+            options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { position: 'bottom' } }, cutout: '70%' }
         });
     } else {
         ctx.font = "14px Arial"; ctx.fillStyle = "#888"; ctx.textAlign = "center"; ctx.fillText("No hay datos este mes", 140, 140);

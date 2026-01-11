@@ -1,4 +1,8 @@
 <?php
+// Configuración de sesión eterna (24 horas)
+ini_set('session.gc_maxlifetime', 86400);
+session_set_cookie_params(86400);
+
 session_start();
 if (isset($_SESSION['usuario_id'])) {
     header("Location: dashboard.php");
@@ -17,7 +21,6 @@ if (isset($_SESSION['usuario_id'])) {
     <div class="login-container fade-in">
         <div class="logo-area">
             <img src="../assets/img/luminalogo.png" alt="Logo Lumina" class="logo-circular">
-            
             <h1>Lumina</h1>
             <p>Support with Purpose</p>
         </div>
@@ -33,7 +36,11 @@ if (isset($_SESSION['usuario_id'])) {
         <form action="../backend/login.php" method="POST">
             <input type="text" name="credencial" placeholder="Correo o Usuario" required>
             
-            <input type="password" name="password" placeholder="Contraseña" required>
+            <div class="password-wrapper">
+                <input type="password" name="password" id="passInput" placeholder="Contraseña" required>
+                <span class="toggle-password" onclick="togglePass('passInput')">👁️</span>
+            </div>
+
             <button type="submit">Entrar</button>
         </form>
         
@@ -42,5 +49,13 @@ if (isset($_SESSION['usuario_id'])) {
             <a href="olvide_password.php" style="font-size: 0.8em; color: #999;">Recuperar contraseña</a>
         </p>
     </div>
+
+    <script>
+        function togglePass(id) {
+            var input = document.getElementById(id);
+            if (input.type === "password") input.type = "text";
+            else input.type = "password";
+        }
+    </script>
 </body>
 </html>

@@ -1,48 +1,43 @@
 <?php
-require_once 'conexion.php';
-
-$token = $_GET["token"] ?? "";
-$mensaje = "";
+require_once '../config/conexion.php';
+$paso = 1; // Paso 1: Verificar correo | Paso 2: Cambiar contraseña
+$email = "";
 $error = "";
-$token_valido = false;
+$mensaje = "";
 
-// 1. VERIFICAR TOKEN
-if (!empty($token)) {
-    $stmt = $conexion->prepare("SELECT id FROM usuarios WHERE token_reset = ? AND token_expira > NOW()");
-    $stmt->bind_param("s", $token);
+// 1. SI VENIMOS DE OLVIDE_PASSWORD (POST)
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['email_recuperacion'])) {
+    $email = $_POST['email_recuperacion'];
+    
+    // Verificar si existe el email
+    $stmt = $conexion->prepare("SELECT id FROM usuarios WHERE email = ?");
+    $stmt->bind_param("s", $email);
     $stmt->execute();
-    $stmt->store_result();
+    $res = $stmt->get_result();
 
-    if ($stmt->num_rows === 1) {
-        $token_valido = true;
+    if ($res->num_rows > 0) {
+        $paso = 2; // Email encontrado, mostrar formulario de cambio
     } else {
-        $error = "El enlace es inválido o ha expirado.";
+        header("Location: olvide_password.php?error=noexiste");
+        exit();
     }
-    $stmt->close();
-} else {
-    $error = "No se ha proporcionado un token.";
 }
 
-// 2. CAMBIAR CONTRASEÑA
-if ($_SERVER["REQUEST_METHOD"] === "POST" && $token_valido) {
-    $password = trim($_POST["password"]);
+// 2. SI VENIMOS DE CAMBIAR LA CONTRASEÑA (POST FINAL)
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['nueva_pass'])) {
+    $email_final = $_POST['email_hidden'];
+    $pass = $_POST['nueva_pass'];
     
-    // Validamos robustez (igual que en registro)
-    if (strlen($password) < 8 || !preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
-        $error = "La contraseña debe tener 8 caracteres, mayúscula y número.";
+    // Encriptar y guardar
+    $pass_hash = password_hash($pass, PASSWORD_DEFAULT);
+    $stmt = $conexion->prepare("UPDATE usuarios SET password = ? WHERE email = ?");
+    $stmt->bind_param("ss", $pass_hash, $email_final);
+    
+    if($stmt->execute()) {
+        header("Location: index.php?registro=exito"); // Reusamos el mensaje de éxito
+        exit();
     } else {
-        $nuevo_hash = password_hash($password, PASSWORD_DEFAULT);
-
-        // Actualizamos password y borramos el token para que no se use más veces
-        $stmtUpdate = $conexion->prepare("UPDATE usuarios SET password = ?, token_reset = NULL, token_expira = NULL WHERE token_reset = ?");
-        $stmtUpdate->bind_param("ss", $nuevo_hash, $token);
-        
-        if ($stmtUpdate->execute()) {
-            $mensaje = "¡Contraseña actualizada! <br><a href='index.php'>Inicia sesión aquí</a>.";
-            $token_valido = false; // Ocultamos el formulario
-        } else {
-            $error = "Error técnico al actualizar.";
-        }
+        $error = "Hubo un error al actualizar.";
     }
 }
 ?>
@@ -52,31 +47,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && $token_valido) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nueva Contraseña</title>
-    <link rel="stylesheet" href="estilos.css">
+    <title>Restablecer - Lumina</title>
+    <link rel="stylesheet" href="../assets/css/estilos.css">
 </head>
 <body>
-    <div class="card fade-in">
-        <h2>Nueva Contraseña</h2>
+    <div class="login-container fade-in">
+        <div class="logo-area">
+            <img src="../assets/img/luminalogo.png" alt="Logo Lumina" class="logo-circular" style="width:100px; height:100px;">
+            <h2>Nueva Contraseña</h2>
+        </div>
 
-        <?php if ($error): ?>
-            <div class="errores"><?= $error ?></div>
+        <?php if($error): ?>
+            <p style="color:red; text-align:center;"><?= $error ?></p>
         <?php endif; ?>
 
-        <?php if ($mensaje): ?>
-            <div class="exito"><?= $mensaje ?></div>
-        <?php endif; ?>
+        <?php if ($paso == 2): ?>
+            <p style="text-align:center; color:#5a189a; margin-bottom:15px;">
+                Hola, hemos encontrado tu cuenta: <br><strong><?= htmlspecialchars($email) ?></strong>
+            </p>
 
-        <?php if ($token_valido): ?>
-            <form method="POST">
-                <label>Escribe tu nueva contraseña</label>
-                <input type="password" name="password" required placeholder="Mínimo 8 caract.">
-                <button type="submit">Cambiar contraseña</button>
+            <form action="restablecer.php" method="POST">
+                <input type="hidden" name="email_hidden" value="<?= htmlspecialchars($email) ?>">
+                <input type="password" name="nueva_pass" placeholder="Escribe tu nueva contraseña" required>
+                <button type="submit">Guardar Nueva Contraseña</button>
             </form>
+        <?php else: ?>
+            <p style="text-align:center;">Acceso inválido.</p>
+            <a href="index.php" style="display:block; text-align:center; margin-top:15px;">Volver</a>
         <?php endif; ?>
-        
-        <br>
-        <a href="index.php" class="link">Volver al inicio</a>
     </div>
 </body>
 </html>

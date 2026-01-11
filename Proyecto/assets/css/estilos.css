@@ -7,152 +7,128 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 15px; /* Menos padding en los bordes para móviles */
+    padding: 15px;
 }
 
-/* --- 2. CAJAS Y CONTENEDORES --- */
-.login-container {
-    background: white;
-    padding: 2rem; /* Un poco menos de padding general */
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+/* --- 2. CONTENEDORES RESPONSIVE --- */
+.login-container, .card {
+    background: rgba(255, 255, 255, 0.95);
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
     width: 100%;
-    max-width: 420px;
-    text-align: center;
-}
-
-.card {
-    background: white;
-    padding: 1.5rem; /* Optimizado para ganar espacio */
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
-    width: 100%;
-    max-width: 500px;
     margin: 0 auto;
 }
 
-.wide { max-width: 900px; }
+.login-container { max-width: 400px; text-align: center; }
+.card { max-width: 500px; }
+.wide { max-width: 800px; } 
 
-/* --- 3. LOGO (RESPONSIVE) --- */
+/* --- 3. LOGO --- */
 .logo-circular {
-    /* Tamaño por defecto (PC/Tablet) */
-    width: 220px; 
-    height: 220px;
+    width: 140px; 
+    height: 140px;
     border-radius: 50%;
     object-fit: cover;
     display: block;
     margin: 0 auto 15px auto;
     border: 4px solid #e0c3fc;
     box-shadow: 0 5px 15px rgba(157, 78, 221, 0.3);
-    transition: all 0.3s ease; /* Animación suave al cambiar de tamaño */
 }
-
 .logo-area h1 { color: #5a189a; margin-bottom: 5px; font-size: 1.8rem; }
 .logo-area p { color: #888; margin-bottom: 20px; font-size: 0.95rem; }
 
-/* --- 4. FORMULARIOS --- */
+/* --- 4. FORMULARIOS E INPUTS --- */
 input, select, textarea {
     width: 100%;
     padding: 12px;
     margin: 8px 0;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 12px;
     outline: none;
-    font-size: 16px; /* Evita zoom automático en iPhone */
-    transition: 0.3s;
+    font-size: 16px; 
+    background: #fdfdfd;
 }
-input:focus { border-color: #9d4edd; }
+input:focus, textarea:focus, select:focus { border-color: #9d4edd; background: white; }
+
+/* OJITO DENTRO DE LA BARRA */
+.password-wrapper { position: relative; width: 100%; margin: 8px 0; }
+.password-wrapper input { margin: 0; padding-right: 45px; width: 100%; }
+.toggle-password { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 1.2rem; color: #888; z-index: 2; user-select: none; }
+.toggle-password:hover { color: #9d4edd; }
+
+/* Slider de Intensidad */
+.range-container { margin: 15px 0; }
+.range-label { display: flex; justify-content: space-between; font-size: 0.9rem; color: #555; }
+input[type=range] { -webkit-appearance: none; background: transparent; margin: 10px 0; width: 100%; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 20px; width: 20px; border-radius: 50%; background: #9d4edd; cursor: pointer; margin-top: -8px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 6px; background: #e0c3fc; border-radius: 5px; cursor: pointer; }
 
 button {
-    width: 100%;
-    padding: 14px; /* Botones más fáciles de tocar con el dedo */
-    background: #9d4edd;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-    transition: 0.3s;
+    width: 100%; padding: 14px; background: #9d4edd; color: white;
+    border: none; border-radius: 12px; cursor: pointer; font-size: 16px; font-weight: bold; margin-top: 10px;
+    transition: 0.2s;
 }
-button:hover { background: #7b2cbf; transform: translateY(-2px); }
+button:hover { background: #7b2cbf; transform: scale(1.02); }
 
-/* --- 5. MENÚ Y LISTAS --- */
-.app-menu {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    margin-bottom: 20px;
-    background: #f8f9fa;
-    padding: 10px;
-    border-radius: 10px;
-    flex-wrap: wrap; /* Permite que los botones bajen si no caben */
-}
+/* --- 5. SELECTOR DE EMOCIONES (CHECKBOX MULTIPLE) --- */
+.mood-selector { display: flex; gap: 15px; justify-content: center; margin-bottom: 20px; padding: 10px 0; }
+.mood-option { position: relative; cursor: pointer; display: flex; flex-direction: column; align-items: center; transition: transform 0.2s; }
+.mood-emoji { font-size: 32px; filter: grayscale(100%); opacity: 0.6; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); display: block; }
 
-.menu-item {
-    text-decoration: none;
-    color: #555;
-    font-weight: 500;
-    font-size: 14px;
-    padding: 8px 12px;
-    border-radius: 5px;
-    background: white; /* Fondo blanco para que resalten en móvil */
-    border: 1px solid #eee;
-    flex: 1 1 auto; /* Crecen para llenar huecos en móvil */
-    text-align: center;
+/* Etiqueta flotante */
+.mood-label { position: absolute; top: -30px; background: #5a189a; color: white; font-size: 0.75rem; padding: 4px 8px; border-radius: 12px; opacity: 0; transform: translateY(10px); pointer-events: none; transition: all 0.3s ease; white-space: nowrap; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+.mood-label::after { content: ''; position: absolute; bottom: -4px; left: 50%; transform: translateX(-50%); border-left: 5px solid transparent; border-right: 5px solid transparent; border-top: 5px solid #5a189a; }
+
+/* Animaciones para Checkbox */
+.mood-option:hover .mood-emoji, 
+input[type="checkbox"]:checked + .mood-emoji { 
+    filter: grayscale(0%); opacity: 1; transform: scale(1.4) translateY(-5px); 
 }
-.menu-item:hover { background: #e0c3fc; color: #5a189a; border-color: #e0c3fc; }
+.mood-option:hover .mood-label, 
+input[type="checkbox"]:checked ~ .mood-label { 
+    opacity: 1; transform: translateY(0); 
+}
+.mood-option input[type="checkbox"] { display: none; }
+
+/* --- 6. CALENDARIO FLOTANTE --- */
+.calendar-header { display: flex; justify-content: space-between; align-items: center; }
+.calendar-header h3 { color: #5a189a; text-transform: capitalize; font-size: 1.4rem; margin: 0; }
+.btn-nav { text-decoration: none; color: #9d4edd; font-weight: bold; font-size: 1.2rem; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; background: rgba(157, 78, 221, 0.1); border-radius: 50%; transition: 0.3s; }
+.btn-nav:hover { background: #9d4edd; color: white; }
+.calendar-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin: 25px auto; max-width: 800px; width: 100%; }
+.day-name { text-align: center; font-size: 0.9rem; color: #fff; font-weight: bold; padding-bottom: 5px; text-transform: uppercase; text-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+.day-cell { aspect-ratio: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; background: rgba(255, 255, 255, 0.35); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); border: 1px solid rgba(255, 255, 255, 0.6); border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.05); color: #4a148c; text-decoration: none; font-weight: 600; font-size: 1rem; position: relative; transition: all 0.2s ease; }
+.day-cell:hover { transform: translateY(-5px) scale(1.05); background: rgba(255, 255, 255, 0.8); border-color: #fff; }
+.day-cell.today { border: 3px solid #fff; background: rgba(157, 78, 221, 0.6); color: white; }
+.day-cell.selected { background: #5a189a; color: white; border-color: #5a189a; box-shadow: 0 5px 15px rgba(90, 24, 154, 0.4); }
+.day-cell.empty { background: transparent; border: none; box-shadow: none; pointer-events: none; backdrop-filter: none; }
+.dots-container { display: flex; gap: 3px; position: absolute; bottom: 8px; }
+.dot { width: 5px; height: 5px; border-radius: 50%; box-shadow: 0 1px 2px rgba(0,0,0,0.2); }
+.dot.feliz { background: #ffd700; }
+.dot.triste { background: #3498db; }
+.dot.enojado { background: #e74c3c; }
+.dot.ansioso { background: #9b59b6; }
+.dot.calmado { background: #2ecc71; }
+
+/* --- 7. MENÚ Y OTROS --- */
+.app-menu { display: flex; justify-content: center; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+.menu-item { padding: 8px 15px; border-radius: 20px; background: rgba(255,255,255,0.6); border: 1px solid rgba(255,255,255,0.8); text-decoration: none; color: #555; font-size: 0.9rem; }
+.menu-item:hover { background: #e0c3fc; color: #5a189a; }
 .salir { color: #d63031; border-color: #ffe6e6; }
+.help-banner { background: #ffeaa7; border-left: 5px solid #fdcb6e; color: #d35400; padding: 15px; border-radius: 8px; margin-bottom: 20px; display: flex; align-items: center; gap: 15px; font-size: 0.95rem; }
+.help-icon { font-size: 2rem; }
+.config-section { margin-bottom: 25px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+.config-section:last-child { border-bottom: none; }
+.info-text { font-size: 0.85rem; color: #888; margin-top: -5px; margin-bottom: 10px; display: block; }
+.entry-item { background: #fff; border-left: 5px solid #9d4edd; padding: 15px; margin-bottom: 15px; border-radius: 10px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); position: relative; }
+.entry-intensity { position: absolute; top: 10px; right: 10px; background: #e0c3fc; color: #5a189a; font-size: 0.7rem; padding: 2px 8px; border-radius: 10px; font-weight: bold; }
 
-/* --- 6. TABLAS (Admin) --- */
-/* Esto permite que la tabla tenga scroll horizontal en móvil sin romper la web */
-table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
-.table-responsive { overflow-x: auto; -webkit-overflow-scrolling: touch; } 
-
-th { background: #f8f9fa; padding: 10px; text-align: left; color: #6c5ce7; font-weight: bold; border-bottom: 2px solid #e0c3fc; white-space: nowrap; }
-td { padding: 10px; border-bottom: 1px solid #eee; vertical-align: middle; }
-
-/* --- 7. UTILIDADES --- */
-.fade-in { animation: fadeIn 0.8s ease-in-out; }
-@keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-.pie { margin-top: 20px; font-size: 0.9rem; color: #666; }
-.pie a { color: #9d4edd; text-decoration: none; font-weight: bold; }
-
-/* =========================================
-   📱 REGLAS ESPECÍFICAS PARA MÓVILES
-   (Se activan si la pantalla mide menos de 768px)
-   ========================================= */
-@media (max-width: 768px) {
-    /* El logo se hace más pequeño automáticamente */
-    .logo-circular {
-        width: 140px;
-        height: 140px;
-        margin-bottom: 10px;
-        border-width: 3px;
-    }
-
-    /* Reducimos el tamaño de la letra del título */
-    .logo-area h1 { font-size: 1.5rem; }
-
-    /* La caja blanca ocupa casi todo el ancho y tiene menos relleno */
-    .login-container, .card {
-        padding: 1.5rem 1rem; /* Menos relleno a los lados */
-        width: 100%;
-    }
-
-    /* Ajustes para el dashboard */
-    .mood-btn { font-size: 24px; } /* Emojis un poco más pequeños */
-    .mood-selector { gap: 10px; }
-
-    /* Ajustes para tablas en admin */
-    th, td { padding: 8px; font-size: 12px; }
-    .badge { font-size: 10px; padding: 3px 6px; }
-}
-.registro-footer {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-    padding-top: 15px;
-    border-top: 1px solid #eee; /* Opcional: una línea sutil de separación */
-    margin-top: 20px;
+@media (max-width: 600px) {
+    body { padding: 10px; align-items: flex-start; }
+    .card, .login-container { padding: 1.2rem; border-radius: 15px; }
+    .calendar-grid { gap: 4px; } 
+    .day-cell { font-size: 0.85rem; }
+    .logo-circular { width: 100px; height: 100px; }
+    .menu-item { padding: 8px 12px; font-size: 0.8rem; flex-grow: 1; text-align: center; }
 }

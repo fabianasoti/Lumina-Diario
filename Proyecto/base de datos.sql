@@ -56,4 +56,10 @@ ALTER TABLE usuarios ADD COLUMN ultima_conexion DATETIME DEFAULT NULL;
 /* Cambia 'tu_email@ejemplo.com' por TU email real con el que te registraste */
 UPDATE usuarios SET rol = 'admin' WHERE email = 'tu_email@ejemplo.com';
 
+ALTER TABLE entradas ADD COLUMN intensidad INT DEFAULT 5;
+/*Esto añade una columna numérica del 1 al 10, con valor 5 por defecto para la intensidad de las emociones.*/
+
+ALTER TABLE usuarios ADD COLUMN ultimo_cambio_nombre DATETIME DEFAULT NULL;
+/*Necesitamos una "marca de tiempo" para saber cuándo fue la última vez que el usuario cambió su nombre.*/
+
 
