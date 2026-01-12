@@ -25,12 +25,15 @@ if (isset($_SESSION['usuario_id'])) {
             <p>Support with Purpose</p>
         </div>
 
-        <?php if(isset($_GET['error']) && $_GET['error'] == 'credenciales'): ?>
-            <p style="color:red; margin-bottom:10px;">Usuario o contraseña incorrectos</p>
-        <?php endif; ?>
-        
-        <?php if(isset($_GET['registro']) && $_GET['registro']=='exito'): ?>
-            <p style="color:green; margin-bottom:10px;">¡Cuenta creada! Ingresa ahora.</p>
+        <?php if(isset($_GET['error'])): ?>
+            <p style="color:red; margin-bottom:10px; font-size: 0.9rem;">
+              <?php 
+            if($_GET['error'] == 'credenciales') echo "Usuario o contraseña incorrectos.";
+            if($_GET['error'] == 'vacios') echo "Por favor, rellena todos los campos.";
+              ?>
+            </p>
+       
+    
         <?php endif; ?>
 
         <form action="../backend/login.php" method="POST">

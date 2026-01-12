@@ -30,9 +30,7 @@ CREATE TABLE usuarios (
     token_reset VARCHAR(64) NULL DEFAULT NULL,
     token_expira DATETIME NULL DEFAULT NULL,
     ultima_conexion DATETIME NULL DEFAULT NULL,
-    ultimo_cambio_nombre DATETIME NULL DEFAULT NULL,
-    
-    CONSTRAINT chk_nombre_formato CHECK (nombre REGEXP '^[a-zA-Z0-9._]{5,20}$')
+    ultimo_cambio_nombre DATETIME NULL DEFAULT NULL
 );
 
 CREATE TABLE entradas (
@@ -47,6 +45,6 @@ CREATE TABLE entradas (
 
 /* 3. ¡IMPORTANTE! Conviértete TÚ en el administrador */
 /* Cambia 'tu_email@ejemplo.com' por TU email real con el que te registraste */
-UPDATE usuarios SET rol = 'admin' WHERE email = 'tu-email@ejemplo.com';
+UPDATE usuarios SET rol = 'admin' WHERE email = 'tu-nombre@ejemplo.com';
 
 
